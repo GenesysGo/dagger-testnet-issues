@@ -1,6 +1,7 @@
 import { Octokit } from 'octokit'
 
 import { Dropzone } from '@/components/dropzone'
+import { SubmitButton } from '@/components/submit-button'
 import { getIssueTemplate } from '@/lib/issue-template'
 import { redirect } from 'next/navigation'
 
@@ -99,10 +100,7 @@ export default function Home() {
               </div>
             </div>
             <div className="mt-10 flex justify-end">
-              <button type="submit" className="bg-blue-500 text-white rounded-sm px-4 py-2 flex items-center space-x-2 hover:bg-blue-600">
-                <span className="font-medium">Submit report</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-              </button>
+              <SubmitButton />
             </div>
           </form>
         </div>
