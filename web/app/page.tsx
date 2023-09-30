@@ -7,6 +7,10 @@ export default function Home() {
   async function submit(formData: FormData) {
     'use server'
 
+    if (!process.env.GH_PAT || !process.env.GITHUB_OWNER || !process.env.GITHUB_REPO) {
+      return
+    }
+
     const octokit = new Octokit({ auth: process.env.GH_PAT })
 
     const title = formData.get('title') as string
@@ -26,8 +30,8 @@ export default function Home() {
 
     try {
       const result = await octokit.rest.issues.create({
-        owner: 'bntzio',
-        repo: 'dagger-testnet-issues',
+        owner: process.env.GITHUB_OWNER,
+        repo: process.env.GITHUB_REPO,
         title,
         body,
         labels: ['bug'],
