@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "next": "latest",
+    "octokit": "^3.1.1",
     "react": "latest",
     "react-dom": "latest",
     "react-dropzone": "^14.2.3"

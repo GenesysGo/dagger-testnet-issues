@@ -1,6 +1,44 @@
+import { Octokit } from 'octokit'
+
 import { Dropzone } from '@/components/dropzone'
+import { getIssueTemplate } from '@/lib/issue-template'
 
 export default function Home() {
+  async function submit(formData: FormData) {
+    'use server'
+
+    const octokit = new Octokit({ auth: process.env.GH_PAT })
+
+    const title = formData.get('title') as string
+    const description = formData.get('description') as string
+    const steps = formData.get('steps') as string
+    const behavior = formData.get('behavior') as string
+
+    if (!title || !description || !steps || !behavior) {
+      return
+    }
+
+    const body = getIssueTemplate({
+      description,
+      steps,
+      behavior,
+    })
+
+    try {
+      const result = await octokit.rest.issues.create({
+        owner: 'bntzio',
+        repo: 'dagger-testnet-issues',
+        title,
+        body,
+        labels: ['bug'],
+      })
+
+      console.log(result.data)
+    } catch(e) {
+      console.error(e)
+    }
+  }
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-16">
       <div>
@@ -9,7 +47,7 @@ export default function Home() {
           <span className="rounded-full py-1 px-2 bg-lime-400 text-slate-900 text-xs font-medium">testnet</span>
         </div>
         <div className="mt-10">
-          <form>
+          <form action={submit}>
             <div className="flex flex-col space-y-8">
               <div className="flex flex-col space-y-2">
                 <label className="font-medium text-slate-50" htmlFor="title">Title</label>
