@@ -66,35 +66,35 @@ export default function Home() {
               <div className="flex flex-col space-y-2">
                 <label className="font-medium text-slate-50" htmlFor="title">Title</label>
                 <small className="text-sm font-medium text-slate-300">Give a short title to your issue report</small>
-                <input type="text" id="title" name="title" className="bg-transparent rounded-sm border-2 border-slate-600 text-slate-100 outline-none px-2 py-1" />
+                <input type="text" id="title" name="title" className="bg-transparent rounded-sm border-2 border-slate-600 text-slate-100 outline-none px-2 py-1" required />
               </div>
 
               <div className="flex flex-col space-y-2">
                 <label className="font-medium text-slate-50" htmlFor="description">Description</label>
                 <small className="text-sm font-medium text-slate-300">A clear and concise description of what the bug is</small>
-                <textarea rows={5} cols={33} id="description" name="description" className="bg-transparent rounded-sm border-2 border-slate-600 text-slate-100 outline-none px-2 py-1" />
+                <textarea rows={5} cols={33} id="description" name="description" className="bg-transparent rounded-sm border-2 border-slate-600 text-slate-100 outline-none px-2 py-1" required />
               </div>
 
               <div className="flex flex-col space-y-2">
                 <label className="font-medium text-slate-50" htmlFor="steps">Steps to reproduce</label>
                 <small className="text-sm font-medium text-slate-300">Step by step instructions to reproduce the issue</small>
-                <textarea rows={5} cols={33} id="steps" name="steps" className="bg-transparent rounded-sm border-2 border-slate-600 text-slate-100 outline-none px-2 py-1" />
+                <textarea rows={5} cols={33} id="steps" name="steps" className="bg-transparent rounded-sm border-2 border-slate-600 text-slate-100 outline-none px-2 py-1" required />
               </div>
 
               <div className="flex flex-col space-y-2">
                 <label className="font-medium text-slate-50" htmlFor="behavior">Expected behavior</label>
                 <small className="text-sm font-medium text-slate-300">A clear and concise description of what you expected to happen</small>
-                <textarea rows={5} cols={33} id="behavior" name="behavior" className="bg-transparent rounded-sm border-2 border-slate-600 text-slate-100 outline-none px-2 py-1" />
+                <textarea rows={5} cols={33} id="behavior" name="behavior" className="bg-transparent rounded-sm border-2 border-slate-600 text-slate-100 outline-none px-2 py-1" required />
               </div>
 
               <div className="flex flex-col space-y-2">
-                <label className="font-medium text-slate-50" htmlFor="screenshots">Screenshots</label>
+                <label className="font-medium text-slate-50" htmlFor="screenshots">Screenshots (optional)</label>
                 <small className="text-sm font-medium text-slate-300">If applicable, add screenshots to help explain your problem</small>
                 <Dropzone />
               </div>
 
               <div className="flex flex-col space-y-2">
-                <label className="font-medium text-slate-50" htmlFor="context">Additional context</label>
+                <label className="font-medium text-slate-50" htmlFor="context">Additional context (optional)</label>
                 <small className="text-sm font-medium text-slate-300">Add any other context about the problem here</small>
                 <textarea rows={5} cols={33} id="context" name="context" className="bg-transparent rounded-sm border-2 border-slate-600 text-slate-100 outline-none px-2 py-1" />
               </div>
