@@ -9,7 +9,7 @@ export default function Home() {
     'use server'
 
     if (!process.env.GH_PAT || !process.env.NEXT_PUBLIC_GITHUB_OWNER || !process.env.NEXT_PUBLIC_GITHUB_REPO) {
-      return redirect(`/?error=Server error`)
+      throw new Error('Missing credentials')
     }
 
     const title = formData.get('title') as string
@@ -19,6 +19,10 @@ export default function Home() {
 
     if (!title || !description || !steps || !behavior) {
       return redirect(`/?error=Missing fields`)
+    }
+
+    if (title.length > 60) {
+      return redirect(`/?error=Title too long`)
     }
 
     const body = getIssueTemplate({
@@ -40,8 +44,7 @@ export default function Home() {
         labels: ['bug'],
       })
     } catch(e) {
-      console.error(e)
-      return redirect(`/?error=${(e as Error)?.message ?? 'Unknown error'}`)
+      throw new Error((e as Error)?.message ?? 'Unknown error')
     }
 
     if (result) {
