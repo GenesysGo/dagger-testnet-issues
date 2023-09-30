@@ -8,8 +8,8 @@ export default function Home() {
   async function submit(formData: FormData) {
     'use server'
 
-    if (!process.env.GH_PAT || !process.env.GITHUB_OWNER || !process.env.GITHUB_REPO) {
-      return redirect(`/?error=server-error`)
+    if (!process.env.GH_PAT || !process.env.NEXT_PUBLIC_GITHUB_OWNER || !process.env.NEXT_PUBLIC_GITHUB_REPO) {
+      return redirect(`/?error=Server error`)
     }
 
     const title = formData.get('title') as string
@@ -18,7 +18,7 @@ export default function Home() {
     const behavior = formData.get('behavior') as string
 
     if (!title || !description || !steps || !behavior) {
-      return redirect(`/?error=missing-fields`)
+      return redirect(`/?error=Missing fields`)
     }
 
     const body = getIssueTemplate({
@@ -29,19 +29,23 @@ export default function Home() {
 
     const octokit = new Octokit({ auth: process.env.GH_PAT })
 
+    let result
+
     try {
-      const result = await octokit.rest.issues.create({
-        owner: process.env.GITHUB_OWNER,
-        repo: process.env.GITHUB_REPO,
+      result = await octokit.rest.issues.create({
+        owner: process.env.NEXT_PUBLIC_GITHUB_OWNER,
+        repo: process.env.NEXT_PUBLIC_GITHUB_REPO,
         title,
         body,
         labels: ['bug'],
       })
-
-      console.log(result.data)
     } catch(e) {
       console.error(e)
-      return redirect(`/?error=${(e as Error)?.message ?? 'unknown-error'}`)
+      return redirect(`/?error=${(e as Error)?.message ?? 'Unknown error'}`)
+    }
+
+    if (result) {
+      redirect(`/success?issue=${result.data.number}`)
     }
   }
 
