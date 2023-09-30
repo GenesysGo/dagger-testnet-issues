@@ -2,16 +2,15 @@ import { Octokit } from 'octokit'
 
 import { Dropzone } from '@/components/dropzone'
 import { getIssueTemplate } from '@/lib/issue-template'
+import { redirect } from 'next/navigation'
 
 export default function Home() {
   async function submit(formData: FormData) {
     'use server'
 
     if (!process.env.GH_PAT || !process.env.GITHUB_OWNER || !process.env.GITHUB_REPO) {
-      return
+      return redirect(`/?error=server-error`)
     }
-
-    const octokit = new Octokit({ auth: process.env.GH_PAT })
 
     const title = formData.get('title') as string
     const description = formData.get('description') as string
@@ -19,7 +18,7 @@ export default function Home() {
     const behavior = formData.get('behavior') as string
 
     if (!title || !description || !steps || !behavior) {
-      return
+      return redirect(`/?error=missing-fields`)
     }
 
     const body = getIssueTemplate({
@@ -27,6 +26,8 @@ export default function Home() {
       steps,
       behavior,
     })
+
+    const octokit = new Octokit({ auth: process.env.GH_PAT })
 
     try {
       const result = await octokit.rest.issues.create({
@@ -40,6 +41,7 @@ export default function Home() {
       console.log(result.data)
     } catch(e) {
       console.error(e)
+      return redirect(`/?error=${(e as Error)?.message ?? 'unknown-error'}`)
     }
   }
 
